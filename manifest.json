@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "My Firefox Extension",
+  "version": "1.0",
+  "description": "Description of my Firefox extension",
+  "applications": {
+    "gecko": {
+      "id": "myextension@example.com"
+    }
+  },
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "tabs",
+    "<all_urls>"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  }
+}

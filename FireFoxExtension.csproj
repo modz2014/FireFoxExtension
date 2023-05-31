@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="7-Zip.CommandLine" Version="18.1.0" />
+		<PackageReference Include="Microsoft.Build.Tasks.Core" Version="16.10.0" PrivateAssets="All" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="manifest.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="background.js">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<Target Name="BuildXpi" AfterTargets="Build">
+		<Exec Command="&quot;$(NuGetPackageRoot)7-Zip.CommandLine\18.1.0\tools\7za.exe&quot; a -tzip -y &quot;$(TargetDir)$(AssemblyName).xpi&quot; &quot;$(TargetDir)manifest.json&quot; &quot;$(TargetDir)background.js&quot;" />
+
+		<ItemGroup>
+			<FilesToDelete Include="$(TargetDir)*.*" Exclude="$(TargetDir)$(AssemblyName).xpi" />
+		</ItemGroup>
+
+		<Delete Files="@(FilesToDelete)" />
+	</Target>
+
+</Project>
